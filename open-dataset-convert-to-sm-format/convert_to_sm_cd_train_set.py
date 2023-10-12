@@ -14,8 +14,10 @@ def convert_format(src_img: str):
     :param src_img: 原始影像的路径
     :return:
     """
+    name, suffix = os.path.splitext(src_img)
+    if suffix == '.tif':
+        return
     img = Image.open(src_img)
-    name = os.path.splitext(src_img)[0]
     dst_tif = name + '.tif'
     img.save(dst_tif, 'TIFF')
     img.close()
