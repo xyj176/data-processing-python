@@ -16,7 +16,7 @@ def clip_cv2_example():
     通过cv2裁剪图片的示例代码
     :return:
     """
-    img = cv2.imread('example.jpg')  # cv2不支持中文路径，读写都不支持
+    img = cv2.imread('example.jpg', cv2.IMREAD_ANYCOLOR)  # cv2不支持中文路径，读写都不支持
     print(img.shape)  # shape：高，宽，通道
     crop = img[0:2000, 0:2000]  # 裁剪坐标为[y0:y1, x0:x1],图片左上角为原点
     cv2.imwrite('crop_cv2.jpg', crop)
@@ -45,7 +45,7 @@ def clip(img_path, out_path, size_w=512, size_h=512, step=512):
     """
     base_name = os.path.basename(img_path)
     name, suffix = os.path.splitext(base_name)  # 后缀
-    img = cv2.imread(img_path)
+    img = cv2.imread(img_path, cv2.IMREAD_ANYCOLOR)
     height = img.shape[0]
     width = img.shape[1]
 
@@ -64,7 +64,7 @@ def clip(img_path, out_path, size_w=512, size_h=512, step=512):
             crop = img[star_h:end_h, star_w:end_w]
             dst_name = name + '_' + str(star_h) + '_' + str(star_w) + suffix  # 用起始点的y,x坐标命名
             print(dst_name)
-            cv2.imwrite(os.path.join(out_path, dst_name), crop)
+            cv2.imwrite(os.path.join(out_path, dst_name), crop, [cv2.IMWRITE_PNG_COMPRESSION, 0])
 
 
 def clip_batch(data_root, out_path, size_w, size_h, step):
@@ -80,7 +80,7 @@ def main():
 
 
 if __name__ == '__main__':
-    data_root = r'D:\code\data-processing-python\image\clip\data\Masks'
+    data_root = r'D:\data\open-data\cd\S2Looking\S2Looking\train\label'
     out_path = r'D:\code\data-processing-python\image\clip\result\Masks'
     clip_batch(data_root, out_path, 512, 512, 512)
     # main()
