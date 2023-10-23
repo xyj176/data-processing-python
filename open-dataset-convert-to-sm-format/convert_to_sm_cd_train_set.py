@@ -101,7 +101,7 @@ def main(data_root: str):
     title_size = img.height
     img.close()
     dataset_name = os.path.basename(data_root)
-    img_count = len(os.listdir(images1))
+    img_count = len(os.listdir(masks))
     create_sda(data_root, title_size,dataset_name,img_count)
 
 
@@ -134,7 +134,7 @@ def main_multi_thread(data_root: str):
     title_size = img.height
     img.close()
     dataset_name = os.path.basename(data_root)
-    img_count = len(os.listdir(images1))
+    img_count = len(os.listdir(masks))
     create_sda(data_root, title_size,dataset_name,img_count)
 
 
