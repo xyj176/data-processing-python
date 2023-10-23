@@ -46,7 +46,7 @@ def gray_to_rgb(gray_img: str):
     src.close()
 
 
-def create_sda(path: str, tile_size: int):
+def create_sda(path: str, tile_size: int,dataset_name:str,img_count:int):
     sda_path = os.path.join(path, os.path.basename(path) + '.sda')
     shutil.copyfile('template.sda', sda_path)
     if os.path.exists(sda_path):
@@ -54,6 +54,8 @@ def create_sda(path: str, tile_size: int):
             result = yaml.load(f.read(), Loader=yaml.FullLoader)
         # 修改tile_size的值
         result['dataset']['tile_size'] = tile_size
+        result['dataset']['name'] = dataset_name
+        result['dataset']['image_count'] = img_count
         with open(sda_path, 'w') as f:
             yaml.dump(data=result, stream=f, allow_unicode=True, sort_keys=False)
 
@@ -98,7 +100,9 @@ def main(data_root: str):
     img = Image.open(os.path.join(images1, os.listdir(images1)[0]))
     title_size = img.height
     img.close()
-    create_sda(data_root, title_size)
+    dataset_name = os.path.basename(data_root)
+    img_count = len(os.listdir(images1))
+    create_sda(data_root, title_size,dataset_name,img_count)
 
 
 def main_multi_thread(data_root: str):
@@ -129,7 +133,9 @@ def main_multi_thread(data_root: str):
     img = Image.open(os.path.join(images1, os.listdir(images1)[0]))
     title_size = img.height
     img.close()
-    create_sda(data_root, title_size)
+    dataset_name = os.path.basename(data_root)
+    img_count = len(os.listdir(images1))
+    create_sda(data_root, title_size,dataset_name,img_count)
 
 
 def parse_args():
